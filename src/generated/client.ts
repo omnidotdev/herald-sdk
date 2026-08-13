@@ -81,6 +81,21 @@ export const SendEmailDocument = graphql(`
   }
 `);
 
+export const SendEmailBatchDocument = graphql(`
+  mutation SendEmailBatch($input: SendMessagesInput!) {
+    sendMessages(input: $input) {
+      results {
+        index
+        ok
+        messageId
+        status
+        code
+        error
+      }
+    }
+  }
+`);
+
 export const ResendEmailDocument = graphql(`
   mutation ResendEmail($id: UUID!) {
     resendMessage(id: $id) {
@@ -206,6 +221,8 @@ export type VerifyDomainResult = ResultOf<typeof VerifyDomainDocument>;
 export type VerifyDomainVariables = VariablesOf<typeof VerifyDomainDocument>;
 export type SendEmailResult = ResultOf<typeof SendEmailDocument>;
 export type SendEmailVariables = VariablesOf<typeof SendEmailDocument>;
+export type SendEmailBatchResult = ResultOf<typeof SendEmailBatchDocument>;
+export type SendEmailBatchVariables = VariablesOf<typeof SendEmailBatchDocument>;
 export type ResendEmailResult = ResultOf<typeof ResendEmailDocument>;
 export type ResendEmailVariables = VariablesOf<typeof ResendEmailDocument>;
 export type ListMessagesResult = ResultOf<typeof ListMessagesDocument>;
@@ -213,61 +230,38 @@ export type ListMessagesVariables = VariablesOf<typeof ListMessagesDocument>;
 export type GetMessageResult = ResultOf<typeof GetMessageDocument>;
 export type GetMessageVariables = VariablesOf<typeof GetMessageDocument>;
 export type ListSuppressionsResult = ResultOf<typeof ListSuppressionsDocument>;
-export type ListSuppressionsVariables = VariablesOf<
-	typeof ListSuppressionsDocument
->;
+export type ListSuppressionsVariables = VariablesOf<typeof ListSuppressionsDocument>;
 export type AddSuppressionResult = ResultOf<typeof AddSuppressionDocument>;
-export type AddSuppressionVariables = VariablesOf<
-	typeof AddSuppressionDocument
->;
-export type RemoveSuppressionResult = ResultOf<
-	typeof RemoveSuppressionDocument
->;
-export type RemoveSuppressionVariables = VariablesOf<
-	typeof RemoveSuppressionDocument
->;
+export type AddSuppressionVariables = VariablesOf<typeof AddSuppressionDocument>;
+export type RemoveSuppressionResult = ResultOf<typeof RemoveSuppressionDocument>;
+export type RemoveSuppressionVariables = VariablesOf<typeof RemoveSuppressionDocument>;
 export type ListWebhooksResult = ResultOf<typeof ListWebhooksDocument>;
 export type CreateWebhookResult = ResultOf<typeof CreateWebhookDocument>;
 export type CreateWebhookVariables = VariablesOf<typeof CreateWebhookDocument>;
 export type DeleteWebhookResult = ResultOf<typeof DeleteWebhookDocument>;
 export type DeleteWebhookVariables = VariablesOf<typeof DeleteWebhookDocument>;
 
-export const createClient = (
-	url: string,
-	options?: ConstructorParameters<typeof GraphQLClient>[1],
-) => {
-	const gql = new GraphQLClient(url, options);
-	return {
-		listApiKeys: () => gql.request(ListApiKeysDocument),
-		createApiKey: (variables: CreateApiKeyVariables) =>
-			gql.request(CreateApiKeyDocument, variables),
-		revokeApiKey: (variables: RevokeApiKeyVariables) =>
-			gql.request(RevokeApiKeyDocument, variables),
-		listDomains: () => gql.request(ListDomainsDocument),
-		createDomain: (variables: CreateDomainVariables) =>
-			gql.request(CreateDomainDocument, variables),
-		verifyDomain: (variables: VerifyDomainVariables) =>
-			gql.request(VerifyDomainDocument, variables),
-		sendEmail: (variables: SendEmailVariables) =>
-			gql.request(SendEmailDocument, variables),
-		resendEmail: (variables: ResendEmailVariables) =>
-			gql.request(ResendEmailDocument, variables),
-		listMessages: (variables: ListMessagesVariables) =>
-			gql.request(ListMessagesDocument, variables),
-		getMessage: (variables: GetMessageVariables) =>
-			gql.request(GetMessageDocument, variables),
-		listSuppressions: (variables: ListSuppressionsVariables) =>
-			gql.request(ListSuppressionsDocument, variables),
-		addSuppression: (variables: AddSuppressionVariables) =>
-			gql.request(AddSuppressionDocument, variables),
-		removeSuppression: (variables: RemoveSuppressionVariables) =>
-			gql.request(RemoveSuppressionDocument, variables),
-		listWebhooks: () => gql.request(ListWebhooksDocument),
-		createWebhook: (variables: CreateWebhookVariables) =>
-			gql.request(CreateWebhookDocument, variables),
-		deleteWebhook: (variables: DeleteWebhookVariables) =>
-			gql.request(DeleteWebhookDocument, variables),
-	};
+export const createClient = (url: string, options?: ConstructorParameters<typeof GraphQLClient>[1]) => {
+  const gql = new GraphQLClient(url, options);
+  return {
+    listApiKeys: () => gql.request(ListApiKeysDocument),
+    createApiKey: (variables: CreateApiKeyVariables) => gql.request(CreateApiKeyDocument, variables),
+    revokeApiKey: (variables: RevokeApiKeyVariables) => gql.request(RevokeApiKeyDocument, variables),
+    listDomains: () => gql.request(ListDomainsDocument),
+    createDomain: (variables: CreateDomainVariables) => gql.request(CreateDomainDocument, variables),
+    verifyDomain: (variables: VerifyDomainVariables) => gql.request(VerifyDomainDocument, variables),
+    sendEmail: (variables: SendEmailVariables) => gql.request(SendEmailDocument, variables),
+    sendEmailBatch: (variables: SendEmailBatchVariables) => gql.request(SendEmailBatchDocument, variables),
+    resendEmail: (variables: ResendEmailVariables) => gql.request(ResendEmailDocument, variables),
+    listMessages: (variables: ListMessagesVariables) => gql.request(ListMessagesDocument, variables),
+    getMessage: (variables: GetMessageVariables) => gql.request(GetMessageDocument, variables),
+    listSuppressions: (variables: ListSuppressionsVariables) => gql.request(ListSuppressionsDocument, variables),
+    addSuppression: (variables: AddSuppressionVariables) => gql.request(AddSuppressionDocument, variables),
+    removeSuppression: (variables: RemoveSuppressionVariables) => gql.request(RemoveSuppressionDocument, variables),
+    listWebhooks: () => gql.request(ListWebhooksDocument),
+    createWebhook: (variables: CreateWebhookVariables) => gql.request(CreateWebhookDocument, variables),
+    deleteWebhook: (variables: DeleteWebhookVariables) => gql.request(DeleteWebhookDocument, variables),
+  };
 };
 
 export type Client = ReturnType<typeof createClient>;

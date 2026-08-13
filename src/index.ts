@@ -5,11 +5,12 @@ import type {
 	CreateWebhookVariables,
 	ListMessagesVariables,
 	ListSuppressionsVariables,
+	SendEmailBatchVariables,
 	SendEmailVariables,
 } from "./generated/client";
 import { createClient } from "./generated/client";
 
-const DEFAULT_BASE_URL = "https://send.omni.dev/graphql";
+const DEFAULT_BASE_URL = "https://api.herald.omni.dev/graphql";
 
 export interface HeraldOptions {
 	/** A Herald API key (hk_...). Sent as a Bearer token. */
@@ -45,6 +46,12 @@ export const createHerald = ({
 		emails: {
 			/** Send a transactional message. */
 			send: (input: SendEmailVariables["input"]) => client.sendEmail({ input }),
+			/**
+			 * Send up to 100 distinct messages in one call. Each message succeeds
+			 * or fails independently; the payload carries a per-message result.
+			 */
+			sendBatch: (input: SendEmailBatchVariables["input"]) =>
+				client.sendEmailBatch({ input }),
 			/** Resend a previously sent message by id. */
 			resend: (id: string) => client.resendEmail({ id }),
 			/** List messages, newest first. */
