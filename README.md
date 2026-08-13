@@ -1,6 +1,6 @@
 # @omnidotdev/herald
 
-Official TypeScript SDK for [Herald](https://send.omni.dev), the Omni
+Official TypeScript SDK for [Herald](https://herald.omni.dev), the Omni
 transactional and marketing email API.
 
 ## Install
@@ -24,6 +24,17 @@ await herald.emails.send({
   html: "<p>Hello {{name}} 👋</p>",
   variables: { name: "Ada" },
 });
+
+// Send up to 100 distinct emails in one call; each succeeds or fails on its own
+const { sendMessages } = await herald.emails.sendBatch({
+  messages: [
+    { from: "you@yourdomain.com", to: "a@example.com", subject: "Hi", html: "<p>Hi</p>" },
+    { from: "you@yourdomain.com", to: "b@example.com", subject: "Hi", html: "<p>Hi</p>" },
+  ],
+});
+for (const result of sendMessages.results) {
+  if (!result.ok) console.error(`message ${result.index} failed: ${result.code}`);
+}
 
 // List recent messages and inspect one
 const { messages } = await herald.emails.list({ first: 20 });
