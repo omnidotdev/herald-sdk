@@ -19,7 +19,7 @@
 		"src/generated",
 		"src/graphql-env.d.ts"
 	],
-	"license": "Apache-2.0",
+	"license": "UNLICENSED",
 	"author": "Omni <hey@omni.dev>",
 	"homepage": "https://herald.omni.dev",
 	"repository": {
