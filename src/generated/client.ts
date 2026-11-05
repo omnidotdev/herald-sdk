@@ -70,6 +70,35 @@ export const VerifyDomainDocument = graphql(`
   }
 `);
 
+export const SetTrackingSubdomainDocument = graphql(`
+  mutation SetTrackingSubdomain($input: SetTrackingSubdomainInput!) {
+    setTrackingSubdomain(input: $input) {
+      domainId
+      domain
+      trackingSubdomain
+      active
+    }
+  }
+`);
+
+export const VerifyTrackingSubdomainDocument = graphql(`
+  mutation VerifyTrackingSubdomain($id: UUID!) {
+    verifyTrackingSubdomain(id: $id) {
+      domainId
+      trackingSubdomain
+      active
+    }
+  }
+`);
+
+export const ClearTrackingSubdomainDocument = graphql(`
+  mutation ClearTrackingSubdomain($id: UUID!) {
+    clearTrackingSubdomain(id: $id) {
+      domainId
+    }
+  }
+`);
+
 export const SendEmailDocument = graphql(`
   mutation SendEmail($input: SendMessageInput!) {
     sendMessage(input: $input) {
@@ -219,6 +248,12 @@ export type CreateDomainResult = ResultOf<typeof CreateDomainDocument>;
 export type CreateDomainVariables = VariablesOf<typeof CreateDomainDocument>;
 export type VerifyDomainResult = ResultOf<typeof VerifyDomainDocument>;
 export type VerifyDomainVariables = VariablesOf<typeof VerifyDomainDocument>;
+export type SetTrackingSubdomainResult = ResultOf<typeof SetTrackingSubdomainDocument>;
+export type SetTrackingSubdomainVariables = VariablesOf<typeof SetTrackingSubdomainDocument>;
+export type VerifyTrackingSubdomainResult = ResultOf<typeof VerifyTrackingSubdomainDocument>;
+export type VerifyTrackingSubdomainVariables = VariablesOf<typeof VerifyTrackingSubdomainDocument>;
+export type ClearTrackingSubdomainResult = ResultOf<typeof ClearTrackingSubdomainDocument>;
+export type ClearTrackingSubdomainVariables = VariablesOf<typeof ClearTrackingSubdomainDocument>;
 export type SendEmailResult = ResultOf<typeof SendEmailDocument>;
 export type SendEmailVariables = VariablesOf<typeof SendEmailDocument>;
 export type SendEmailBatchResult = ResultOf<typeof SendEmailBatchDocument>;
@@ -250,6 +285,9 @@ export const createClient = (url: string, options?: ConstructorParameters<typeof
     listDomains: () => gql.request(ListDomainsDocument),
     createDomain: (variables: CreateDomainVariables) => gql.request(CreateDomainDocument, variables),
     verifyDomain: (variables: VerifyDomainVariables) => gql.request(VerifyDomainDocument, variables),
+    setTrackingSubdomain: (variables: SetTrackingSubdomainVariables) => gql.request(SetTrackingSubdomainDocument, variables),
+    verifyTrackingSubdomain: (variables: VerifyTrackingSubdomainVariables) => gql.request(VerifyTrackingSubdomainDocument, variables),
+    clearTrackingSubdomain: (variables: ClearTrackingSubdomainVariables) => gql.request(ClearTrackingSubdomainDocument, variables),
     sendEmail: (variables: SendEmailVariables) => gql.request(SendEmailDocument, variables),
     sendEmailBatch: (variables: SendEmailBatchVariables) => gql.request(SendEmailBatchDocument, variables),
     resendEmail: (variables: ResendEmailVariables) => gql.request(ResendEmailDocument, variables),

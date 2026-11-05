@@ -7,6 +7,7 @@ import type {
 	ListSuppressionsVariables,
 	SendEmailBatchVariables,
 	SendEmailVariables,
+	SetTrackingSubdomainVariables,
 } from "./generated/client";
 import { createClient } from "./generated/client";
 
@@ -65,6 +66,15 @@ export const createHerald = ({
 			create: (input: CreateDomainVariables["input"]) =>
 				client.createDomain({ input }),
 			verify: (id: string) => client.verifyDomain({ id }),
+			/** Set a branded tracking subdomain for a domain (stored pending). */
+			setTrackingSubdomain: (input: SetTrackingSubdomainVariables["input"]) =>
+				client.setTrackingSubdomain({ input }),
+			/** Probe a pending tracking subdomain and activate it if reachable. */
+			verifyTrackingSubdomain: (id: string) =>
+				client.verifyTrackingSubdomain({ id }),
+			/** Clear a branded tracking subdomain, reverting to the shared host. */
+			clearTrackingSubdomain: (id: string) =>
+				client.clearTrackingSubdomain({ id }),
 		},
 		apiKeys: {
 			list: () => client.listApiKeys(),
