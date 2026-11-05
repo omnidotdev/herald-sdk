@@ -1,6 +1,6 @@
 {
 	"name": "@omnidotdev/herald",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Official TypeScript SDK for Herald, the Omni transactional and marketing email API.",
 	"type": "module",
 	"main": "./build/index.js",
